@@ -14,3 +14,11 @@ def health_check():
 def receber_link(dados: UrlFormatada):
     return {"URL": "https://www.google.com/"}
 
+@router.get("/{codigo}")
+def retornar_url_dicionario(codigo):
+    url = buscar_url(codigo)
+
+    if url:
+        return RedirectResponse(url=url)
+    else:
+        raise HTTPException(status_code=404, detail="Código não encontrado")
