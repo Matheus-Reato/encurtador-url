@@ -3,12 +3,20 @@ from encurtador.schemas import UrlFormatada
 from encurtador.repository import buscar_url
 from fastapi import HTTPException
 from fastapi.responses import RedirectResponse
+from database import get_db
 
 router = APIRouter(tags=["Encurtador"], prefix="/encurtador")
 
 @router.get("/health")
 def health_check():
     return {"status": "ok"}
+
+@router.get("/health-db")
+def health_check_db():
+    if get_db():
+        return {"status": "ok"}
+    else:
+        return {"status": "error"}
 
 @router.post("/shorten")
 def receber_link(dados: UrlFormatada):
